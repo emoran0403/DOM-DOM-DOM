@@ -11,15 +11,7 @@
         /*flex: 1 1 200px;*/
 
         height: 5em;
-  width: 5em;
-  /*background: tomato;
-  display: inline-block;
-  text-align: center;
-  line-height: 25vw;
-  font-size: 20vw;
-  margin-right: -4px;
-  position: relative;*/
-        
+        width: 5em;       
     }
 
 
@@ -28,6 +20,9 @@
     */
 
     .div-container {
-        display: flex;
+        /*
+        5: When there is no more room, they should wrap to the next line
+        */
+        display: flex; /*makes the sqDivs wrap to the next line when*/
         flex-wrap: wrap;
     }
