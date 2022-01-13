@@ -51,28 +51,86 @@ function divAdder() { //creates the list adder function
 
     sqDiv.debounceId = 0;
 
-sqDiv.addEventListener("click", function (event) {
-            // If a setTimeout ID exists for the element
-            if (sqDiv.debounceId) {
-                // then cancel it and reset it to zero
-                window.clearTimeout(sqDiv.debounceId);
-                sqDiv.debounceId = 0;
-            }
+    sqDiv.addEventListener("click", function (event) {
+        // If a setTimeout ID exists for the element
+        if (sqDiv.debounceId) {
+            // then cancel it and reset it to zero
+            window.clearTimeout(sqDiv.debounceId);
+            sqDiv.debounceId = 0;
+        }
 
-            
-            // If a single click fires (aka event.detail is 1)
-            if (event.detail === 1) {
-                // then create a new setTimeout with single click functionality
-                // and save the new setTimeout ID to the element.debounceID property
-                sqDiv.debounceId = setTimeout(function () {
-                    console.log("Single!");
-                    sqDiv.style.backgroundColor = randomColor();
-                }, 500);
-                // Else if it's a double click, do double click actions
-            } else if (event.detail === 2) {
-                console.log("Double");
+
+        // If a single click fires (aka event.detail is 1)
+        if (event.detail === 1) {
+            // then create a new setTimeout with single click functionality
+            // and save the new setTimeout ID to the element.debounceID property
+            sqDiv.debounceId = setTimeout(function () {
+                console.log("Single!");
+                sqDiv.style.backgroundColor = randomColor();
+            }, 500);
+            // Else if it's a double click, do double click actions
+        } else if (event.detail === 2) {
+            console.log("Double");
+
+            if (this.getAttribute('id') % 2 === 0) { //If the id of the square is even
+                //The square after the clicked square should be removed from the page  >>  Node.nextSibling
+                //console.log('this was an even id box');
+                try { //these try and catch blocks are needed to handle errors
+                    this.parentNode.removeChild(this.nextSibling);
+                    /*
+                    the above line will remove the next sibling of our sqDiv via
+                    the removeChild method of the parent node of the sqDiv that was clicked
+                    */
+                }
+                catch (err) { //this defines what will happen if the code in the try block encounters an error
+                    alert("There is no box after this one") //this displays an alert when the code from the try block encounters an error
+                }
+            } else {  //If the id of the square is odd
+                //The square before the clicked square should be removed from the page  >>  Node.previousSibling
+                //console.log('this was an odd id box');
+                try {
+                    this.parentNode.removeChild(this.previousSibling);
+                }
+                catch (err) {
+                    alert("There is no box before this one")
+                }
+
             }
-            });
+        }
+    });
 }
 
 
+
+/*
+
+>> this is how I can deal with errors.  the code in the try block is what I want to handle errors for
+
+the code in the catch(err) block is what to do when those errors come up.  In this lab, I just need a catch-all alert.  later on I can be more specific depending on use-cases
+
+try {
+  this.parentNode.removeChild(this.nextSibling);
+}
+catch(err) {
+  alert("There is no box after this one")
+}
+*/
+
+
+
+/*
+getting the id of the clicked on element, then adding 1 does not work beyond the first removal
+EXAMPLE: if 2 is clicked, then 3 is removed.  if 2 is clicked again, 4 should be removed, but it is still looking for 3, since that is the next id in line
+this.nextsibling, then get the parent, then remove this
+node.
+this.removeChild(this.nextsibling)
+
+
+//this.removeChild(this.nextsibling)
+                // - does not work - let removeThis = parseInt(this.getAttribute('id')) + 1;
+                // - does not work - console.log(`via parseInt ${removeThis}`);
+                // - does not work - console.log(+removeThis);
+                // - does not work - let toRemove = document.getElementById(+removeThis);
+                // - does not work - let d_nested = document.getElementById("nested");
+                // - does not work - bigDiv.removeChild(toRemove);
+*/
